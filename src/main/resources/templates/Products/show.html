@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр товара</title>
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+</head>
+<body>
+<div th:insert="Blocks/Header">...</div>
+<div align="center" class="bg-ex-animation">
+
+    <table>
+        <tr>
+            <th>Название товара</th>
+            <th>Описание товара</th>
+            <th>Марка товара</th>
+            <th>Количество товара</th>
+            <th>Стоимость товара</th>
+        </tr>
+        <div th:each="products : ${product}">
+            <tr>
+                <td th:text="${products.titleproducts}"></td>
+                <td th:text="${products.description}"></td>
+                <td th:text="${products.stamp.titlestamp}"></td>
+                <td th:text="${products.quantity}"></td>
+                <td th:text="${products.cost+' руб.'}"></td>
+            </tr>
+        </div>
+    </table>
+</div>
+</body>
+</html>

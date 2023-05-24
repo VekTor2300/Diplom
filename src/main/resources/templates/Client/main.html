@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="ru">
+<head>
+    <title>Клиенты</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <script src="https://unpkg.com/imask"></script>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+    <div class="wrapper">
+<div align="center" th:if="${isEmployee||isAdmin}">
+<p class="display-5 p-2">Все клиенты</p><br>
+<a href="/userClient/addAdmin" class="btn btn-info" sec:authorize="isAuthenticated()">Добавить клиента</a>
+    <table class="table table-striped">
+        <tr>
+            <th>ФИО</th>
+            <th>Почта</th>
+            <th>Дата рождения</th>
+            <th>Адрес</th>
+            <th>Логин</th>
+            <th>Номер телефона</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <div th:each="client : ${clients}">
+            <tr>
+                <td th:text="${client.users.surname+' '+client.users.name+' '+client.users.middlename}"></td>
+                <td th:text="${client.email}"></td>
+                <td th:text="${client.birthdate}"></td>
+                <td th:text="${client.address}"></td>
+                <td th:text="${client.users.login}"></td>
+                <td th:text="${client.numberPhone}"></td>
+                <td><a th:href="'/userClient/edit/'+${client.id}"
+                       sec:authorize="isAuthenticated()">Редактировать</a></td>
+<!--                <td><a th:href="'/userClient/show/'+${client.id}">Просмотреть</a></td>-->
+                <td><a th:href="'/userClient/del/'+${client.id}"
+                       sec:authorize="isAuthenticated()">Удалить</a></td>
+            </tr>
+        </div>
+    </table>
+</div>
+
+    </div>
+
+</div>
+<!--<div class="footer">-->
+
+<!--</div>-->
+</body>
+</html>

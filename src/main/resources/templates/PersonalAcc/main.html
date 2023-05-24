@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+    <title>Лицевые счеты</title>
+</head>
+<body>
+<!--<div hx-trigger="every 5s"-->
+<!--     hx-get="/personalAccount" >-->
+<div th:insert="Blocks/Header" style="margin-top: 120px; height: 20vh;">...</div>
+
+<div class="bg-ex-animation">
+    <div class="wrapper">
+        <div align="center" th:if="${isAdmin}">
+            <p class="display-5 p-2">Лицевые счеты клиентов</p><br>
+            <a href="/personalAccount/addAdmin" class="btn btn-info">Создать лицевой счет</a>
+            <br><br>
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th>Номер лицевого счета</th>
+                    <th>Баланс лицевого счета</th>
+                    <th>Клиент</th>
+                    <th>Тариф клиента</th>
+                    <th>Абонентская плата</th>
+                    <th></th>
+                </tr>
+                <div th:each="psAcc : ${personalAcc}">
+                    <tr>
+                        <td th:text="${psAcc.numPersonalAccount}"></td>
+                        <td th:text="${psAcc.balanceAccount + ' руб.'}"></td>
+                        <td th:text="${psAcc.clients.users.name + ' ' + psAcc.clients.users.surname + ' ' + psAcc.clients.users.middlename}"></td>
+                        <td th:text="${psAcc.rates.nameRate}"></td>
+                        <td th:text="${psAcc.rates.subscriptionFee + ' руб.'}"></td>
+                        <td><a th:href="'/personalAccount/edit/'+${psAcc.id}"><span style="color: black" class="bx bx-pencil"></span></a></td>
+                        <td><a th:href="'/personalAccount/del/' + ${psAcc.id}"><span style="color: black" class="bx bx-trash"></span></a></td>
+                    </tr>
+                </div>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center align-items-center" th:if="${isUser}" th:each="pa : ${personalAcc}">
+            <div class="transit">
+            <div class="card" style="background: powderblue" th:if="${pa.clients.users.username == isAuth}">
+                <div class="upper">
+                    <img src="/images/themeVellkom2.jpg" class="img-fluid">
+                </div>
+                <div class="user text-center">
+                    <div class="profile">
+                        <img src="/images/clientPhoto.png" class="rounded-circle" width="80">
+                    </div>
+                </div>
+                <div class="mt-5 text-center">
+                    <h4 class="mb-0" style="color: black" th:if="${pa.ethernetContract.isDeleted() == false}" th:text="${pa.clients.users.surname+' '+pa.clients.users.name+' '+pa.clients.users.middlename}"></h4>
+                    <span class="text-muted d-block mb-2" th:if="${pa.ethernetContract.isDeleted() == false}" th:text="${pa.clients.address}"></span>
+                    <span class="text-muted d-block mb-2" th:if="${pa.ethernetContract.isDeleted() == false}" th:text="${pa.clients.email}"></span>
+                    <h4 class="mb-0" style="color: black" th:if="${pa.ethernetContract.isDeleted() == true}">Договор расторгнут</h4>
+                    <div class="d-flex justify-content-between align-items-center mt-4 px-4">
+                        <div class="stats">
+                            <h6 class="mb-0">Логин</h6>
+                            <span th:if="${pa.ethernetContract.isDeleted() == false}" th:text="${pa.clients.users.username}"></span>
+                        </div>
+                        <div class="stats">
+                            <h6 class="mb-0">Баланс</h6>
+                            <span class="divdiv" id="divdiv" th:if="${pa.ethernetContract.isDeleted() == false}" th:text="${pa.balanceAccount + ' руб.'}"></span>
+                        </div>
+                        <!--                    <div class="stats">-->
+                        <!--                        <h6 class="mb-0">Почта</h6>-->
+                        <!--                        <span th:text="${client.email}"></span>-->
+                        <!--                    </div>-->
+                    </div>
+                    <a class="btn btn-primary btn-sm follow" th:href="'/personalAccount/replenishment/'+${pa.id}" th:if="${pa.ethernetContract.isDeleted() == false}">Пополнить баланс</a><br>
+                    <span th:if="${pa.balanceAccount < 21 && pa.ethernetContract.isDeleted() == false}" style="color: red;font-size: 14px">Необходимо пополнить баланс*</span>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+<!--    <div class="footer"></div>-->
+</div>
+<!--</div>-->
+</body>
+</html>
+<style>
+    .divdiv span{}
+</style>
+<script src="https://unpkg.com/htmx.org@1.8.6"></script>
+<script>
+    // Запускаем функцию autoUpdate по готовности страницы:
+
+    document.addEventListener('DOMContentLoaded', autoUpdate);
+
+    // Функция для запуска цикла:
+
+    async function autoUpdate() {
+
+        // Бесконечный цикл:
+
+        while (true) {
+
+            // Обновляем блок .test:
+            await elementUpdate('.divdiv');
+
+            // Выжидаем 1000 миллисекунд перед повторением цикла:
+            await new Promise(function(s) { setTimeout(s, 1000); });
+
+        }
+
+    }
+
+    // Функция для обновления контента:
+
+    async function elementUpdate(selector) {
+        try {
+            var html = await (await fetch(location.href)).text();
+            var newdoc = new DOMParser().parseFromString(html, 'text/html');
+            document.querySelector(selector).outerHTML = newdoc.querySelector(selector).outerHTML;
+            console.log('Элемент '+selector+' был успешно обновлен.');
+            return true;
+        } catch(err) {
+            console.error('При обновлении элемента '+selector+' произошла ошибка:', err);
+            return false;
+        }
+    }
+</script>
+<style>
+    .transit {
+        opacity: 0;
+        animation: ani 2.5s forwards;
+    }
+    @keyframes ani {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+</style>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+
+    body{
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+    }
+
+    .container{
+        height: 100vh;
+    }
+
+    .card{
+
+        width: 380px;
+        border: none;
+        border-radius: 15px;
+        padding: 8px;
+        background-color: #fff;
+        position: relative;
+        height: 420px;
+    }
+
+    .upper{
+
+        height: 100px;
+
+    }
+
+    .upper img{
+
+        width: 100%;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+
+    }
+
+    .user{
+        position: relative;
+    }
+
+    .profile img{
+
+
+        height: 80px;
+        width: 80px;
+        margin-top:2px;
+
+
+    }
+
+    .profile{
+
+        position: absolute;
+        top:-50px;
+        left: 38%;
+        height: 90px;
+        width: 90px;
+        border:3px solid #fff;
+
+        border-radius: 50%;
+
+    }
+
+    .follow{
+
+        border-radius: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+        height: 35px;
+    }
+
+    .stats span{
+
+        font-size: 29px;
+    }
+</style>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <title th:value="${'Редактирование отчета за '+report.dataStart+' - '+report.dataEnd}"></title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div class="bg-ex-animation">
+
+<div align="center">
+    <h1>Редактирование отчета</h1>
+    <form th:action="${'/report/edit/'+report.id}" method="post" th:object="${report}">
+
+        <div>
+            <label>Марка товара</label>
+            <div style="color: red" th:if="${#fields.hasErrors('dataStart')}" th:errors="*{dataStart}"></div>
+            <input th:field="*{dataStart}" type="date"
+                   name="dataStart" placeholder="Введите дату">
+        </div>
+
+        <div>
+            <label>Марка товара</label>
+            <div style="color: red" th:if="${#fields.hasErrors('dataEnd')}" th:errors="*{dataEnd}"></div>
+            <input th:field="*{dataEnd}" type="date"
+                   name="dataEnd" placeholder="Введите дату">
+        </div>
+
+        <div>
+            <label>Марка товара</label>
+            <div style="color: red" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+            <textarea th:field="*{content}"
+                      name="content" placeholder="Введите содержание отчета"></textarea>
+        </div>
+
+        <div>
+            <label>Выберите марку товара</label>
+            <select th:field="*{employes}"
+                    name="author">
+                <option th:each="employe : ${employees}"
+                        th:value="${employe.id}"
+                        th:text="${employe.surname + '|' +
+                        employe.name + '|' + employe.middlename}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+</div>
+</body>
+</html>

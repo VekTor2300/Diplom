@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="/css/mystyle.css" rel="stylesheet">
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/background.css" rel="stylesheet">
+  <link href="/css/textcolor.css" rel="stylesheet">
+  <link href="/css/tableStyle.css" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+  <title>Памятки абонентов</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+  <div class="wrapper">
+    <div align="center" th:if="${isAdmin}" class="transit">
+      <p class="display-5 p-2">Все памятки абонентов</p><br>
+      <a href="/memo/addAdmin" class="btn btn-info">Добавить памятку</a>
+      <br><br>
+      <div style="overflow-x:auto;">
+      <table class="table table-striped table-hover">
+        <tr>
+          <th>IP-адрес</th>
+          <th>Маска подсети</th>
+          <th>Основной шлюз</th>
+          <th>Предпочитаемый сервер DNS</th>
+          <th>Альтернативный сервер DNS</th>
+          <th>Быстрая настройка соединения</th>
+          <th>Тип подключения</th>
+          <th>Сервер доступа (сервер VPN)</th>
+          <th>Протокол авторизации</th>
+          <th>Имя пользователя (login)</th>
+          <th>Пароль (password) для доступа на сервер статистики</th>
+          <th>Сервер входящих и исходящих сообщений</th>
+          <th>Реальный IP-адрес</th>
+          <th></th>
+        </tr>
+        <div th:each="sub : ${subMemo}">
+          <tr>
+            <td th:text="${sub.ipAddress}"></td>
+            <td th:text="${sub.maskUnderWeb}"></td>
+            <td th:text="${sub.mainGateway}"></td>
+            <td th:text="${sub.preferDNSserver}"></td>
+            <td th:text="${sub.alternateDNSserver}"></td>
+            <td th:text="${sub.fastSetupConnect}"></td>
+            <td th:text="${sub.typeConnect}"></td>
+            <td th:text="${sub.serverAccess}"></td>
+            <td th:text="${sub.protocolAuth}"></td>
+            <td th:text="${sub.clients.users.username}"></td>
+            <td th:text="${sub.clients.users.password}"></td>
+            <td th:text="${sub.serverMessage}"></td>
+            <td th:text="${sub.realIPAddress}"></td>
+            <td>
+              <a th:href="'/memo/edit/'+${sub.id}"><span style="color: black" class="bx bx-pencil"></span></a>
+              <a th:href="'/memo/del/'+${sub.id}"><span style="color: black" class="bx bx-trash"></span></a>
+            </td>
+          </tr>
+        </div>
+      </table>
+      </div>
+    </div>
+    <div th:if="${isUser}" th:each="sb : ${subMemo}" class="transit">
+      <div th:if="${sb.clients.users.username == isAuth}">
+        <div style="flex-flow: inherit">
+        <b style="display: inline">Абонент: </b><div style="display: inline" th:text="${sb.clients.users.name + ' ' + sb.clients.users.surname + ' ' + sb.clients.users.middlename}"></div><br>
+        <b style="display: inline">Подключение по адресу: </b><div style="display: inline" th:text="${sb.clients.address}"></div>
+        </div>
+          <h2 style="text-align: center">Памятка абонента к договору<span th:text="${' '+sb.ethernetContract.contractId}"></span></h2>
+      <h4 style="text-align: center">1. Сетевые реквизиты для подключение к Локальной сети:</h4>
+        <div style="overflow-x:auto;">
+      <table class="table" align="center" style="width: 75%">
+        <tr>
+          <th style="text-align: right">IP-адрес</th>
+          <td style="text-align: left" th:text="${sb.ipAddress}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Маска подсети</th>
+          <td th:text="${sb.maskUnderWeb}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Основной шлюз</th>
+          <td th:text="${sb.mainGateway}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Предпочитаемый сервер DNS</th>
+          <td th:text="${sb.preferDNSserver}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Альтернативный сервер DNS</th>
+          <td th:text="${sb.alternateDNSserver}"></td>
+        </tr>
+        <tr>
+      </table>
+        </div>
+      <h4 style="text-align: center">2. Подключение к Интернет (при подключенной Локальной сети):</h4>
+        <div style="overflow-x:auto;">
+      <table class="table" align="center" style="width: 75%">
+        <tr>
+          <th style="text-align: right">Быстрая настройка соединения</th>
+          <td th:text="${sb.fastSetupConnect}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Тип подключения</th>
+          <td th:text="${sb.typeConnect}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Сервер доступа (сервер VPN)</th>
+          <td th:text="${sb.serverAccess}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Протокол авторизации</th>
+          <td th:text="${sb.protocolAuth}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Имя пользователя (login)</th>
+          <td th:text="${sb.clients.users.username}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Пароль (password) для доступа на сервер статистики</th>
+          <td th:text="${sb.clients.users.password}"></td>
+        </tr>
+        <tr>
+      </table>
+        </div>
+      <h4 style="text-align: center">3. Дополнительная информация</h4>
+        <div style="overflow-x:auto;">
+      <table class="table" align="center" style="width: 75%">
+        <tr>
+          <th style="text-align: right">Имя пользователя (login) для доступа в личный кабинет</th>
+          <td th:text="${sb.clients.users.username}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Пароль (password) для доступа в личный кабинет</th>
+          <td th:text="${sb.clients.users.password}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Сервер входящих и исходящих сообщений</th>
+          <td th:text="${sb.serverMessage}"></td>
+        </tr>
+        <tr>
+          <th style="text-align: right">Реальный IP адрес</th>
+          <td th:text="${sb.realIPAddress}"></td>
+        </tr>
+        <tr>
+      </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--  <div class="footer"></div>-->
+</div>
+</body>
+</html>
+<style>
+  .transit div {
+    opacity: 0;
+    animation: ani 2.5s forwards;
+  }
+  @keyframes ani {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+</style>

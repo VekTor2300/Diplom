@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <title>Категория товара</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div align="center" class="bg-ex-animation">
+
+<p class="display-5 p-2">Все категории</p><br>
+<a href="/adminProductCategory/add" class="but" sec:authorize="isAuthenticated()">Добавить категорию</a>
+    <br><br>
+    <table>
+        <tr>
+            <th>Категория товара</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <div th:each="product : ${productCategories}">
+            <tr>
+                <td th:text="${product.name}"></td>
+                <td><a th:href="'/adminProductCategory/edit/'+${product.id}"
+                       sec:authorize="isAuthenticated()">Редактировать</a></td>
+                <td><a th:href="'/adminProductCategory/del/'+${product.id}"
+                       sec:authorize="isAuthenticated()">Удалить</a></td>
+            </tr>
+        </div>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>РЕГИСТРАЦИЯ</title>
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="bg-ex-animation">
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <div th:if="${#messages}" class="display-5 p-2 clear">
+        <p th:text="${message}"></p>
+    </div>
+    <p class="display-5 p-2">РЕГИСТРАЦИЯ</p>
+    <form method="post" th:action="@{/registration/user}" class="form col-sm-2"
+          th:object="${user}">
+        <div class="form-group mt-2">
+            <label for="name" class="label">Имя</label><br>
+            <input id="name" placeholder="Имя" class="form-control mt-2" type="text" th:field="*{name}">
+        </div>
+        <span class="has-error text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+        <div class="form-group mt-2">
+            <label for="surname" class="label">Фамилия</label><br>
+            <input id="surname" placeholder="Фамилия" class="form-control mt-2" type="text" th:field="*{surname}">
+        </div>
+        <span class="has-error text-danger" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+
+        <div class="form-group mt-2">
+            <label for="middle" class="label">Отчество</label><br>
+            <input id="middle" placeholder="Отчество" class="form-control mt-2" type="text" th:field="*{middlename}">
+        </div>
+        <span class="has-error text-danger" th:if="${#fields.hasErrors('middlename')}" th:errors="*{middlename}"></span>
+
+        <div class="form-group mt-2">
+            <label for="login" class="label">Логин</label><br>
+            <input id="login" placeholder="Логин" class="form-control mt-2" type="text" th:field="*{login}">
+        </div>
+        <span class="has-error text-danger" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
+
+        <div class="form-group mt-2">
+            <label for="pass" class="label">Пароль</label><br>
+            <input id="pass" class="form-control mt-2" placeholder="Пароль" type="text" th:field="*{password}">
+        </div>
+        <span class="has-error text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+
+        <div class="form-group mt-2 d-flex flex-row align-items-center justify-content-center">
+            <input type="submit" value="Зарегистрироваться" class="btn btn-success mt-2"><br>
+        </div>
+        <div class="form-group mt-2 d-flex flex-row align-items-center justify-content-center">
+            <a class="btn btn-secondary mt-2" href="/login">Авторизация</a>
+        </div>
+    </form>
+</div>
+</div>
+</body>
+</html>

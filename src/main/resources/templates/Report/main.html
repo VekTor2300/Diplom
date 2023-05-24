@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="/css/mystyle.css" rel="stylesheet">
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/background.css" rel="stylesheet">
+  <link href="/css/textcolor.css" rel="stylesheet">
+  <link href="/css/tableStyle.css" rel="stylesheet">
+    <title>Отчеты</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div align="center" class="bg-ex-animation">
+
+  <h1>Все отчеты</h1>
+  <a href="/report/add" class="but" sec:authorize="isAuthenticated()">Создать отчет</a>
+  <br><br>
+  <table>
+    <tr>
+      <th>Дата начала</th>
+      <th>Дата окончания</th>
+      <th>Содержание</th>
+      <th>Сотрудник</th>
+    </tr>
+    <div th:each="report : ${reports}">
+      <tr>
+        <td th:text="${report.dataStart}"></td>
+        <td th:text="${report.dataEnd}"></td>
+        <td th:text="${report.content}"></td>
+        <td th:text="${report.employes.getSurname()}"></td>
+        <td><a th:href="'/report/edit/'+${report.id}"
+               sec:authorize="isAuthenticated()">Редактировать</a></td>
+        <td><a th:href="'/report/del/'+${report.id}"
+               sec:authorize="isAuthenticated()">Удалить</a></td>
+      </tr>
+    </div>
+  </table>
+  <br><br>
+  <a class="but" th:href="@{/report/export/excel}">Сформировать отчет</a>
+</div>
+</div>
+</body>
+</html>

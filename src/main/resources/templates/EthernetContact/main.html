@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+    <title>Тарифы</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+    <div class="wrapper">
+        <div align="center" th:if="${isEmployee || isAdmin}">
+            <a href="/admin/addAdmin" class="btn btn-success" sec:authorize="isAuthenticated()">Создать договор</a>
+
+            <p class="display-5 p-2">Договора с клиентами</p><br>
+<!--            <a href="/ethContact/add" th:if="${isEmployee}" class="btn btn-info">Заключить договор</a>-->
+            <br><br>
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th>Договор</th>
+                    <th>Адрес предоставления</th>
+                    <th>Лицевой счет</th>
+                    <th>Баланс</th>
+                    <th>Абонентская плата</th>
+                    <th>Логин</th>
+                    <th>Статус</th>
+                    <th>Тариф</th>
+                    <th></th>
+                </tr>
+                <div th:each="EContact : ${ethContact}">
+                    <tr>
+                        <td th:text="${EContact.contractId}"></td>
+                        <td th:text="${EContact.clients.address}"></td>
+                        <td th:text="${EContact.personalAccounts.numPersonalAccount}"></td>
+                        <td th:text="${EContact.personalAccounts.balanceAccount + ' руб.'}"></td>
+                        <td th:text="${EContact.personalAccounts.rates.subscriptionFee + ' руб.'}"></td>
+                        <td th:text="${EContact.clients.users.username}"></td>
+                        <td th:text="${EContact.clients.users.active}"></td>
+                        <td th:text="${EContact.personalAccounts.rates.nameRate}"></td>
+                        <td><a th:if="${isAdmin}" th:href="'/ethContact/edit/'+${EContact.id}"><span style="color: black" class="bx bx-pencil"></span></a></td>
+                        <td><a th:if="${isAdmin}" th:href="'/ethContact/del/' + ${EContact.id}"><span style="color: black" class="bx bx-trash"></span></a></td>
+                    </tr>
+                </div>
+            </table>
+        </div>
+
+        <div class="transit" th:if="${isUser}">
+            <p class="display-5 p-2" style="text-align: center">Интернет</p>
+            <table class="table" align="center" style="width: 75%" th:each="EContact : ${ethContact}" th:if="${EContact.clients.users.username == isAuth && EContact.isDeleted() == false}">
+                <tr>
+                    <th style="text-align: right">Договор</th>
+                    <td th:text="${EContact.contractId}"></td>
+                </tr>
+                <tr>
+                    <th style="text-align: right">Адрес предоставления</th>
+                    <td th:text="${EContact.clients.address}"></td>
+                </tr>
+                <tr>
+                    <th style="text-align: right">Лицевой счет</th>
+                    <td th:text="${EContact.personalAccounts.numPersonalAccount}"></td>
+                </tr>
+                <tr>
+                    <th style="text-align: right">Баланс</th>
+                    <td th:text="${EContact.personalAccounts.balanceAccount + ' руб.'}"></td>
+                </tr>
+                <tr>
+                    <th style="text-align: right">Абонентская плата</th>
+                    <td th:text="${EContact.personalAccounts.rates.subscriptionFee + ' руб.'}"></td>
+                </tr>
+                <tr>
+                    <th style="text-align: right">Логин</th>
+                    <td th:text="${EContact.clients.users.username}"></td>
+                </tr>
+                <tr>
+                    <th style="text-align: right">Статус</th>
+                    <td th:text="${EContact.clients.users.active}"></td>
+                </tr>
+                <tr>
+                    <th style="text-align: right">Тариф</th>
+                    <td><a th:text="${EContact.personalAccounts.rates.nameRate}" th:href="${'/rate'}"></a></td>
+                </tr>
+                <tr>
+                    <th style="text-align: right">Памятка абонента</th>
+                    <td><a href="/memo">Получить данные</a></td>
+                </tr>
+                <tr>
+            </table>
+            <div align="center" style="width: 75%" th:each="ec : ${ethContact}" th:if="${ec.clients.users.username == isAuth && ec.isDeleted() == true}">
+                Договор расторгнут
+            </div>
+        </div>
+    </div>
+<!--    <div class="footer"></div>-->
+</div>
+</body>
+</html>
+<style>
+    .transit {
+        opacity: 0;
+        animation: ani 2.5s forwards;
+    }
+    @keyframes ani {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+</style>

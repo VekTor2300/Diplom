@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <title>Производители</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div align="center" class="bg-ex-animation">
+
+<p class="display-5 p-2">Все производители</p><br>
+<a href="/employManufactur/add" class="but" sec:authorize="isAuthenticated()">Добавить производителя</a>
+    <br><br>
+    <table>
+        <tr>
+            <th>Производитель</th>
+            <th>Марка производителя</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <div th:each="manufact : ${manufacturers}">
+            <tr>
+                <td th:text="${manufact.name}"></td>
+                <td th:text="${manufact.stamp.titlestamp}"></td>
+                <td><a th:href="'/employManufactur/edit/'+${manufact.id}"
+                       sec:authorize="isAuthenticated()">Редактировать</a></td>
+                <td><a th:href="'/employManufactur/del/'+${manufact.id}"
+                       sec:authorize="isAuthenticated()">Удалить</a></td>
+            </tr>
+        </div>
+    </table>
+</div>
+</body>
+</html>

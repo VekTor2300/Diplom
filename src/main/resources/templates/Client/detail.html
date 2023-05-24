@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title th:value="${client.users.username}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <script src="https://unpkg.com/imask"></script>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div align="center" class="bg-ex-animation">
+    <div class="wrapper">
+    <br><br>
+    <div style="overflow-x:auto;">
+    <table>
+        <tr>
+            <th>Логин</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Почта</th>
+            <th>Дата рождения</th>
+            <th>Адрес</th>
+        </tr>
+        <div th:each="clien : ${client}">
+            <tr>
+                <td th:text="${clien.users.username}"></td>
+                <td th:text="${clien.surname}"></td>
+                <td th:text="${clien.name}"></td>
+                <td th:text="${clien.middlename}"></td>
+                <td th:text="${clien.email}"></td>
+                <td th:text="${clien.birthdate}"></td>
+                <td th:text="${clien.address}"></td>
+            </tr>
+        </div>
+    </table>
+    </div>
+    </div>
+    <div class="footer">
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Добавление пользователя</title >
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+    <div class="wrapper">
+    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+<!--        <div th:if="${#messages}" class="display-5 p-2 clear">-->
+<!--            <p th:text="${message}"></p>-->
+<!--        </div>-->
+        <p class="display-5 p-2">Добавление пользователя</p>
+        <form method="post" th:action="${'/admin/addClient'}" class="form col-sm-2"
+              th:object="${user}">
+            <div class="form-group mt-2">
+                <label for="name" class="label">Имя</label><br>
+                <input id="name" placeholder="Имя" class="form-control mt-2 input-ru" type="text" th:field="*{name}">
+            </div>
+            <span class="has-error text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+            <div class="form-group mt-2">
+                <label for="surname" class="label">Фамилия</label><br>
+                <input id="surname" placeholder="Фамилия" class="form-control mt-2 input-ru" type="text" th:field="*{surname}">
+            </div>
+            <span class="has-error text-danger" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+
+            <div class="form-group mt-2">
+                <label for="middle" class="label">Отчество</label><br>
+                <input id="middle" placeholder="Отчество" class="form-control mt-2 input-ru" type="text" th:field="*{middlename}">
+            </div>
+            <span class="has-error text-danger" th:if="${#fields.hasErrors('middlename')}" th:errors="*{middlename}"></span>
+
+            <div class="form-group mt-2">
+                <label for="login" class="label">Логин</label><br>
+                <input id="login" placeholder="Логин" class="form-control mt-2" type="text" th:field="*{login}">
+            </div>
+            <span class="has-error text-danger" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
+
+            <div class="form-group mt-2">
+                <label for="pass" class="label">Пароль</label><br>
+                <input id="pass" class="form-control mt-2" placeholder="Пароль" type="text" th:field="*{password}">
+            </div>
+            <span class="has-error text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+
+            <div class="form-group mt-2">
+                <label for="role" class="label">Роли</label>
+                <div th:each="role : ${roles}">
+                    <input class="checkbox" id="role" th:name="${'roles[]'}" th:value="${role.name}" th:checked="${user.id!=null && #lists.contains(user.roles, role)}"
+                           type="checkbox">
+                    <label th:text="${role.name()}"></label>
+                </div>
+            </div>
+
+            <div hidden class="form-group mt-2">
+                <label for="active" class="label">Активировать аккаунт</label><br>
+                <input id="active" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox" th:field="*{active}">
+            </div>
+            <span class="has-error text-danger" th:if="${#fields.hasErrors('active')}" th:errors="*{active}"></span>
+
+
+            <div class="form-group mt-2 d-flex flex-row align-items-center justify-content-center">
+                <input type="submit" value="Зарегистрировать пользователя" class="btn btn-success mt-2"><br>
+            </div>
+        </form>
+    </div>
+    </div>
+<!--    <div class="footer"></div>-->
+</div>
+</body>
+</html>
+<script>
+    $('body').on('input', '.input-ru', function(){
+        this.value = this.value.replace(/[^а-яё\s]/gi, '');
+    });
+</script>

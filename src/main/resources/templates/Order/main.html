@@ -1,0 +1,263 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="ru">
+<head>
+    <title>Заказы</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const getSort = ({ target }) => {
+            const order = (target.dataset.order = -(target.dataset.order || -1));
+            const index = [...target.parentNode.cells].indexOf(target);
+            const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
+            const comparator = (index, order) => (a, b) => order * collator.compare(
+                a.children[index].innerHTML,
+                b.children[index].innerHTML
+            );
+
+            for(const tBody of target.closest('table').tBodies)
+                tBody.append(...[...tBody.rows].sort(comparator(index, order)));
+
+            for(const cell of target.parentNode.cells)
+                cell.classList.toggle('sorted', cell === target);
+        };
+
+        document.querySelectorAll('.table_sort thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
+
+    });
+</script>
+<style>
+    .table_sort table {
+        border-collapse: collapse;
+    }
+
+    .table_sort th {
+        cursor: pointer;
+    }
+
+    .table_sort td,
+    .table_sort th {
+        width: 150px;
+        height: 40px;
+        text-align: center;
+    }
+
+    .table_sort tbody tr:nth-child(even) {
+    }
+
+    th.sorted[data-order="1"],
+    th.sorted[data-order="-1"] {
+        position: relative;
+    }
+
+    th.sorted[data-order="1"]::after,
+    th.sorted[data-order="-1"]::after {
+        right: 8px;
+        position: absolute;
+    }
+
+    th.sorted[data-order="-1"]::after {
+        content: "▼"
+    }
+
+    th.sorted[data-order="1"]::after {
+        content: "▲"
+    }
+
+    #myInput {
+        background-image: url('https://css.gg/search.css'); /* Добавить значок поиска для ввода */
+        background-position: 10px 12px; /* Расположите значок поиска */
+        background-repeat: no-repeat; /* Не повторяйте изображение значка */
+        width: 100%; /* Полная ширина */
+        font-size: 16px; /* Увеличить размер шрифта */
+        padding: 12px 20px 12px 40px; /* Добавить немного отступов */
+        border: 1px solid #ddd; /* Добавить серую границу */
+        margin-bottom: 12px; /* Добавить некоторое пространство под входом */
+    }
+
+    #myTable {
+        border-collapse: collapse; /* Свернуть границы */
+        width: 100%; /* Полная ширина */
+        border: 1px solid #ddd; /* Добавить серую границу */
+        font-size: 18px; /* Увеличить размер шрифта */
+    }
+
+    #myTable th, #myTable td {
+        text-align: left; /* Выравнивание текста по левому краю */
+        padding: 12px; /* Добавить отступ */
+    }
+
+    #myTable tr {
+        /* Добавить нижнюю границу для всех строк таблицы */
+        border-bottom: 1px solid #ddd;
+    }
+
+    #myTable tr.header, #myTable tr:hover {
+        /* Добавить серый цвет фона для заголовка таблицы и при наведении курсора мыши */
+        background-color: #f1f1f1;
+    }
+</style>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+</style>
+<script>
+    function myFunction() {
+        // Объявить переменные
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Перебирайте все строки таблицы и скрывайте тех, кто не соответствует поисковому запросу
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+<script>
+    function myFunction() {
+        // Объявить переменные
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable2");
+        tr = table.getElementsByTagName("tr");
+
+        // Перебирайте все строки таблицы и скрывайте тех, кто не соответствует поисковому запросу
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+    <div class="wrapper">
+        <div class="transit">
+<p class="display-5 p-2" style="text-align: center">Все заявки</p>
+<br>
+<div align="center">
+    <a th:if="${(isEmployee)}" class="btn btn-info"
+       th:href="${'/orderSotr/export/excelOrd'}">Сформировать отчет</a>
+</div>
+<!--<a href="/orderSotr/add" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"-->
+<!--   sec:authorize="isAuthenticated()" th:if="${isSellercashier}">Добавить заказ</a>-->
+<label for="myInput" class="font-bold" style="color: white">Поиск заявки</label>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Введите дату или время">
+<div style="overflow-x:auto;">
+    <table id="myTable" class="table_sort table table-striped table-hover" align="center">
+        <thead>
+        <tr class="header">
+            <th style="font-size: 14px">№ заявки</th>
+            <th style="font-size: 14px">Дата заявки</th>
+            <th style="font-size: 14px">ФИО заявителя</th>
+            <th style="font-size: 14px">Адрес заявителя</th>
+            <th style="font-size: 14px">Номер телефона</th>
+            <th style="font-size: 14px">Статус заявки</th>
+            <th style="font-size: 14px" th:if="${isEmployee}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}" th:if="${order.isDeleted() == false}">
+            <td style="font-size: 14px" th:text="${order.codeApp}"></td>
+            <td style="font-size: 14px" th:text="${order.dateApp}"></td>
+            <td style="font-size: 14px" th:text="${order.fio}"></td>
+            <td style="font-size: 14px" th:text="${order.address}"></td>
+            <td style="font-size: 14px" th:text="${order.numberPhone}"></td>
+            <td style="font-size: 14px" th:text="${order.appStatus.name}"></td>
+            <td th:if="${isEmployee}">
+                <a style="font-size: 18px" th:href="'/orderSotr/edit/'+${order.id}"
+                   sec:authorize="isAuthenticated()"><span style="color: black" class="bi-pencil-fill"></span></a>
+            </td>
+
+            <td th:if="${isEmployee}">
+<!--                <a style="font-size: 18px" th:href="'/orderSotr/del/'+${order.id}"-->
+<!--                   sec:authorize="isAuthenticated()"><span style="color: black" class="bi-trash3-fill"></span></a>-->
+                <a th:href="'/orderSotr/del/'+${order.id}" target="_blank" onclick="return confirmDelete(this);" class="delete-link need-to-confirm">
+                    <span class="maintext"><span class="bi bi-trash"></span></span>
+                    <span class="confirmation"><span class="bi bi-check"></span> Уверены?</span>
+                </a>
+            </td>
+
+            <td th:if="${isEmployee && (order.appStatus.name == 'Закрыта' || order.appStatus.name == 'Вопрос решен' || order.appStatus.name == 'Отказ')}">
+                <a class="btn btn-success" style="font-size: 16px" th:href="'/orderSotr/delSoft/'+${order.id}"
+                   sec:authorize="isAuthenticated()"><span class="bi-check-lg" style="color: black; font-size: 16px"></span>Закрыть заявку</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+    </div>
+    </div>
+<!--    <div class="footer"></div>-->
+</div>
+</body>
+</html>
+<style>
+    .transit {
+        opacity: 0;
+        animation: ani 2.5s forwards;
+    }
+    @keyframes ani {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+</style>
+<style>
+    .delete-link {
+        display: inline-block;
+        padding: 3px 5px;
+        border: 1px solid red;
+        background-color: #edbaba;
+        color: red;
+        text-decoration: none;
+    }
+    .delete-link:hover {
+        background-color: #fff;
+    }
+    .need-to-confirm .confirmation {
+        display: none;
+    }
+    .confirmed .maintext {
+        display: none;
+    }
+</style>
+<script>
+    var confirmDelete = (function (element) {
+        var className = element.className;
+
+        if (className.indexOf('need-to-confirm') > -1) {
+            element.className = className.replace('need-to-confirm', 'confirmed');
+            return false;
+        } else {
+            element.remove();
+        }
+    });
+</script>

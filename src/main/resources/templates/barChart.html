@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+  <!-- Optional theme -->
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+  <link href="/css/mystyle.css" rel="stylesheet">
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/background.css" rel="stylesheet">
+  <link href="/css/textcolor.css" rel="stylesheet">
+  <link href="/css/tableStyle.css" rel="stylesheet">
+
+</head>
+<body>
+<div th:insert="Blocks/Header">...</div>
+<div class="bg-ex-animation">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div>
+  <canvas style="color: white" id="myChart"></canvas>
+</div>
+<script th:inline="javascript">
+  var cheques = /*[[${cheques}]]*/;
+  var orders = /*[[${orders}]]*/;
+</script>
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Чеки', 'Заказы'],
+      datasets: [{
+        label: 'Чек и заказ',
+        data: [cheques, orders],
+        borderWidth: 5,
+        borderColor: 'rgba(170, 40, 150, 1)',
+        backgroundColor: 'rgba(170, 40, 150, 0.2)',
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+</div>
+</body>
+</html>

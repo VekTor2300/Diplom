@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Редактирование документа</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+    <div class="wrapper">
+        <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+            <form th:action="${'/document/edit/'+documents.id}" th:object="${documents}" method="post" class="form col-sm-2">
+
+                <div class="form-group mt-2">
+                    <label for="img" class="label">Изображение паспорта</label>
+                    <input id="img" placeholder="Изображение" type="file" class="form-control mt-2" name="file"
+                           accept="image/png, image/jpg, image/jpeg">
+                </div>
+                <div class="has-error text-danger" th:if="errorMessageImage!=null" th:text="${errorMessageImage}"></div>
+
+                <div class="form-group mt-2">
+                    <label for="serial" class="label">Серия паспорта</label><br>
+                    <input id="serial" placeholder="1111" maxlength="4" class="form-control mt-2 numbers numb" type="text" th:field="*{serialPass}">
+                </div>
+                <span class="has-error text-danger" th:if="${#fields.hasErrors('serialPass')}" th:errors="*{serialPass}"></span>
+
+                <div class="form-group mt-2">
+                    <label for="number" class="label">Номер паспорта</label><br>
+                    <input id="number" placeholder="111111" maxlength="6" class="form-control mt-2 numbers numb" type="text" th:field="*{numPass}">
+                </div>
+                <span class="has-error text-danger" th:if="${#fields.hasErrors('numPass')}" th:errors="*{numPass}"></span>
+
+<!--                <div hidden class="form-group mt-2">-->
+<!--                    <label class="form-label">Выберите пользователя</label>-->
+<!--                    &lt;!&ndash;      <div style="color: red" th:if="${#fields.hasErrors('users')}" th:errors="*{users}"></div>&ndash;&gt;-->
+<!--                    <select onmousedown="return false" onkeydown="return false" th:field="*{clients}"-->
+<!--                            name="author" class="form-select" style="width: 400px">-->
+<!--                        <option th:each="clients : ${clients}"-->
+<!--                                th:if="${(clients.users.username == userAuth)}"-->
+<!--                                th:value="${clients.id}"-->
+<!--                                th:text="${clients.users.login}">-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                </div>-->
+
+                <div class="form-group mt-2">
+                    <button type="submit" class="btn btn-primary mt-2">Сохранить изменения</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="footer d-flex"></div>
+</div>
+</body>
+</html>

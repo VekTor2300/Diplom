@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <title th:value="${'Редактирование статуса '}"></title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+<div class="wrapper">
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <p class="display-5 p-2">Изменение статуса</p>
+    <form th:action="${'/adminOrderStatus/edit/'+appStatus.id}"
+          method="post" th:object="${appStatus}" class="form col-sm-2">
+        <div class="form-group mt-2">
+            <label class="form-label">Статус заказа</label>
+            <input th:field="*{name}" type="text" class="form-control mt-2"
+                   th:value="${appStatus.name}" name="name"
+                   placeholder="Введите статус">
+            <div th:if="*{#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <button type="submit" class="btn btn-dark mt-2">Сохранить</button>
+    </form>
+</div>
+</div>
+    <div class="footer"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <script src="https://unpkg.com/imask"></script>
+    <title>Поиск сотрудника</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div align="center" class="bg-ex-animation">
+<div class="wrapper">
+    <h2>Фильтрация</h2>
+    <form method="get" th:action="${'/adminEmployee/filter'}">
+        <label>
+            <input type="text" name="surname" style="color: black" th:value="${surname}">
+        </label>
+        <button type="submit">Найти</button>
+        <label>
+            Точный поиск:
+            <input type="checkbox" name="accurate_search" placeholder="Точный поиск" th:checked="${accurate_search}">
+        </label>
+        <br><br>
+        <table>
+            <tr>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Адрес</th>
+                <th>Номер телефона</th>
+                <th>Роль сотрудника</th>
+                <th>Логин сотрудника</th>
+                <th>Должность сотрудника</th>
+                <th>Оклад сотрудника</th>
+            </tr>
+            <div th:each="el : ${result}">
+                <tr>
+                    <td th:text="${el.surname}"></td>
+                    <td th:text="${el.name}"></td>
+                    <td th:text="${el.middlename}"></td>
+                    <td th:text="${el.address}"></td>
+                    <td th:text="${el.numberphone}"></td>
+                    <td th:text="${el.user.roles}"></td>
+                    <td th:text="${el.user.login}"></td>
+                    <td th:text="${el.post.titlepost}"></td>
+                    <td th:text="${el.post.salary+' руб.'}"></td>
+                    <td><a th:href="'/adminEmployee/edit/'+${el.id}"
+                           sec:authorize="isAuthenticated()">Редактировать</a></td>
+                    <td><a th:href="'/adminEmployee/del/'+${el.id}"
+                           sec:authorize="isAuthenticated()">Удалить</a></td>
+                </tr>
+            </div>
+        </table>
+    </form>
+</div>
+    <div class="footer">
+
+    </div>
+</div>
+</body>
+</html>

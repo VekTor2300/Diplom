@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Создание лицевого счета</title>
+</head>
+<style>
+    input[type="number"] {
+        -moz-appearance: textfield;
+        -webkit-appearance: textfield;
+        appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        display: none;
+    }
+</style>
+<body>
+<script src="/js/jquery.validate.js"></script>
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+    <div class="wrapper">
+        <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+            <form th:action = "${'/personalAccount/add'}" method="post"
+                  th:object="${personalAccount}" class="form-group">
+                <div class="form-group mt-2">
+                    <label class="form-label">Номер лицевого счета</label><br>
+                    <input onmousedown="return false" onkeydown="return false" th:field="*{numPersonalAccount}" type="text" name="numPersonalAccount" placeholder="" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('numPersonalAccount')}" th:errors="*{numPersonalAccount}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Баланс счета</label><br>
+                    <input onmousedown="return false" onkeydown="return false" th:field="*{balanceAccount}" type="text" name="balanceAccount" placeholder="" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('balanceAccount')}" th:errors="*{balanceAccount}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Пользователь</label>
+                    <!--      <div style="color: red" th:if="${#fields.hasErrors('clients')}" th:errors="*{clients}"></div>-->
+                    <select th:field="*{clients}"
+                            class="form-select">
+                        name="author">
+                        <option th:each="client : ${clients}"
+                                th:if="${(personalAccount.clients != null && client.id.equals(personalAccount.clients.id)) || (client.personalAccount==null)}"
+                                th:value="${client.id}"
+                                th:text="${client.users.surname+' | Дата рождения - '+client.birthdate}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Тарифы</label>
+                    <!--      <div style="color: red" th:if="${#fields.hasErrors('clients')}" th:errors="*{clients}"></div>-->
+                    <select th:field="*{rates}"
+                            class="form-select">
+                        name="author">
+                        <option th:each="rate : ${rates}"
+                                th:value="${rate.id}"
+                                th:text="${rate.nameRate + ' | Абонентская плата: ' + rate.subscriptionFee}">
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark mt-2">Создать лицевой счет</button>
+            </form>
+        </div>
+    </div>
+    <div class="footer"></div>
+</div>
+</body>
+</html>

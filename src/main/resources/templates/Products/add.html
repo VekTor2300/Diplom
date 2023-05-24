@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title>Добавление товара</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div class="bg-ex-animation">
+
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <form th:action="${'/adminProducts/add'}" method="post"
+          th:object="${product}" class="form col-sm-2">
+
+        <div class="form-group mt-2">
+            <div style="color: red" th:if="${#fields.hasErrors('titleproducts')}" th:errors="*{titleproducts}"></div>
+            <label class="form-label">Название товара</label>
+            <input th:field="*{titleproducts}" class="form-control mt-2"
+                   type="text" name="titleproducts" placeholder="Введите название товара">
+        </div>
+
+        <div class="form-group mt-2">
+            <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+            <label class="form-label">Описание товара</label>
+            <textarea th:field="*{description}" class="form-control mt-2"
+                   name="description" placeholder="Введите описание товара"></textarea>
+        </div>
+
+        <div class="form-group mt-2">
+            <div style="color: red" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div>
+            <label class="form-label">Количество товара</label>
+            <input th:field="*{quantity}" type="number" class="form-control mt-2"
+                   name="quantity" placeholder="Введите количество товара">
+        </div>
+
+        <div class="form-group mt-2">
+            <div style="color: red" th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}"></div>
+            <label class="form-label">Стоимость товара</label>
+            <input th:field="*{cost}" class="form-control mt-2"
+                   type="text" name="cost" placeholder="Введите стоимость товара">
+        </div>
+
+        <div class="form-group mt-2">
+            <label class="form-label">Выберите марку товара</label>
+            <select th:field="*{stamp}"
+                    name="author" class="form-select">
+                <option th:each="stamp : ${stamps}"
+                        th:value="${stamp.id}"
+                        th:text="${stamp.titlestamp}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-dark mt-2">Добавить товар
+        </button>
+    </form>
+</div>
+</div>
+</body>
+</html>

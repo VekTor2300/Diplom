@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <title>Чек</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div align="center" class="bg-ex-animation">
+
+<p class="display-5 p-2">Все чеки</p><br>
+    <div align="center">
+        <a th:if="${(isSales)}" class="btn btn-success mt-2"
+           th:href="@{/employCheque/export/excel}">Скачать чеки</a>
+    </div>
+    <br>
+<a href="/employCheque/add" class="but" sec:authorize="isAuthenticated()">Добавить чек</a>
+    <br><br>
+    <table>
+        <thead>
+        <tr>
+            <th>Количество товара</th>
+            <th>Время подтверждения оплаты</th>
+            <th>ФИО клиента</th>
+            <th>ФИО сотрудника</th>
+            <th>Стоимость заказа</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="cheq : ${cheques}" th:if="${(cheq.client.users.username == isAuth) || isSales}">
+                <td th:text="${cheq.quantity}"></td>
+                <td th:text="${cheq.timesell}"></td>
+                <td th:text="${cheq.client.users.surname+' '+cheq.client.users.name+' '+cheq.client.users.middlename}"></td>
+                <td th:text="${cheq.employees.user.surname+' '+cheq.employees.user.name+' '+cheq.employees.user.middlename}"></td>
+                <td th:text="${cheq.totalCost}"></td>
+
+                <td><a th:href="'/employCheque/edit/'+${cheq.id}" th:if="${isSales}"
+                       sec:authorize="isAuthenticated()">Редактировать</a></td>
+                <td><a th:href="'/employCheque/del/'+${cheq.id}" th:if="${isSales}"
+                       sec:authorize="isAuthenticated()">Удалить</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

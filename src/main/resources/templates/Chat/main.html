@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Чат</title>
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+</head>
+<body>
+<div th:insert="Blocks/Header">...</div>
+<div align="center" class="bg-ex-animation">
+    <div class="container">
+        <div class="border border-2" style="width: 300px; height: 900px; display: inline-block">
+            <div th:each="chats : ${chatMessages}">
+                <div th:text="${chats.clients}"></div>
+            </div>
+        </div>
+        <div class="border border-2" style="width: 900px; height: 900px; display: inline-block">
+            <div th:each="chats : ${chatMessages}">
+                <div th:if="${clients.iterator().next().users.username == isAuth}" th:text="${chats.clients}"></div>
+                <div th:if="${employees.iterator().next().user.username == isAuth}" th:text="${chats.employees}"></div>
+                <div th:text="${chats.content}"></div>
+            </div>
+        </div>
+        <div class="container">
+            <form th:action="${'/chatSupport/send'}" method="post"
+            th:object="${chatMessage}" class="form col-sm-2">
+                <div class="form-group mt-2">
+                    <input th:field="*{content}" class="form-control mt-2"
+                           type="text" name="address" placeholder="Введите адрес">
+                    <button style="width: 40px; height: 40px;" class="btn btn-success">
+                        <span class="bi-send-fill"></span>
+                    </button>
+                    <div style="color: red" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+                </div>
+
+<!--                <input type="text" placeholder="Введите сообщение" style="width: 1150px; height: 50px;">-->
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

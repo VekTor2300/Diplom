@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <title>Изменение памятки абонента</title>
+</head>
+<style>
+    input[type="number"] {
+        -moz-appearance: textfield;
+        -webkit-appearance: textfield;
+        appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        display: none;
+    }
+</style>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+    <div class="wrapper">
+        <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+            <p class="display-5 p-2">Изменение памятки</p>
+            <form th:action="${'/memo/edit/'+subscriberMemo.id}"
+                  class="form-group" method="post" th:object="${subscriberMemo}">
+                <div class="form-group mt-2">
+                    <label class="form-label">IP-адрес</label><br>
+                    <input th:field="*{ipAddress}" type="text" name="ipAddress" placeholder="Введите ip-адрес" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Маска подсети</label><br>
+                    <input th:field="*{maskUnderWeb}" type="text" name="maskUnderWeb" placeholder="Введите маску" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('maskUnderWeb')}" th:errors="*{maskUnderWeb}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Основной шлюз</label><br>
+                    <input th:field="*{mainGateway}" type="text" name="mainGateway" placeholder="Введите шлюз" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('mainGateway')}" th:errors="*{mainGateway}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Предпочитаемый сервер DNS</label><br>
+                    <input th:field="*{preferDNSserver}" type="text" name="preferDNSserver" placeholder="Введите предпочитаемы DNS сервер" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('preferDNSserver')}" th:errors="*{preferDNSserver}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Альтернативный сервер DNS</label><br>
+                    <input th:field="*{alternateDNSserver}" type="text" name="alternateDNSserver" placeholder="Введите альтернативный DNS сервер" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('alternateDNSserver')}" th:errors="*{alternateDNSserver}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Быстрая настройка соединений</label><br>
+                    <input th:field="*{fastSetupConnect}" type="text" name="fastSetupConnect" placeholder="Введите быструю настройку соединений" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('fastSetupConnect')}" th:errors="*{fastSetupConnect}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Тип подключения</label><br>
+                    <input th:field="*{typeConnect}" type="text" name="typeConnect" placeholder="Введите тип подключения" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('typeConnect')}" th:errors="*{typeConnect}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Сервер доступа</label><br>
+                    <input th:field="*{serverAccess}" type="text" name="serverAccess" placeholder="Введите сервер доступа" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('serverAccess')}" th:errors="*{serverAccess}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Протокол авторизации</label><br>
+                    <input th:field="*{protocolAuth}" type="text" name="protocolAuth" placeholder="Введите протокол авторизации" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('protocolAuth')}" th:errors="*{protocolAuth}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Сервер входящих и исходящих сообщений</label><br>
+                    <input th:field="*{serverMessage}" type="text" name="serverMessage" placeholder="Введите сервер сообщений" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('serverMessage')}" th:errors="*{serverMessage}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Реальный IP-адрес</label><br>
+                    <input th:field="*{realIPAddress}" type="text" name="realIPAddress" placeholder="Введите реальный IP-адрес" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('realIPAddress')}" th:errors="*{realIPAddress}"></div><br>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label class="form-label">Выберите пользователя</label>
+                    <!--      <div style="color: red" th:if="${#fields.hasErrors('users')}" th:errors="*{users}"></div>-->
+                    <select th:field="*{users}"
+                            name="user" id="user" class="form-select">>
+                        <option th:each="user : ${users}"
+                                th:value="${user.id}"
+                                th:text="${user.username + ' | ' + user.surname + ' ' + user.name + ' ' + user.middlename}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label class="form-label">Выберите клиента</label>
+                    <!--      <div style="color: red" th:if="${#fields.hasErrors('clients')}" th:errors="*{clients}"></div>-->
+                    <select th:field="*{clients}"
+                            class="form-select"
+                            name="client" id="client">
+                        <option th:each="client : ${clients}"
+                                th:value="${client.id}"
+                                th:text="${client.users.username + ' | Дата рождения - '+client.birthdate}">
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark mt-2">Сохранить</button>
+            </form>
+        </div>
+    </div>
+<!--    <div class="footer"></div>-->
+</div>
+</body>
+</html>

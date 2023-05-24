@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <title th:value="${'Редактирование чека '+cheque.products.titleproducts}"></title>
+</head>
+<style>
+    input[type="number"] {
+        -moz-appearance: textfield;
+        -webkit-appearance: textfield;
+        appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        display: none;
+    }
+</style>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div class="bg-ex-animation">
+
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <p class="display-5 p-2">Изменение чека</p>
+    <form th:action="${'/employCheque/edit/'+cheque.id}" class="form col-sm-2"
+          method="post" th:object="${cheque}">
+        <div class="form-group mt-2">
+            <label class="form-label">Выберите клиента</label>
+            <select th:field="*{client}"
+                    name="author" class="form-select">
+                <option th:each="client : ${clients}"
+                        th:value="${client.id}"
+                        th:text="${client.users.surname+' '+client.users.name+' '+client.users.middlename}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group mt-2">
+            <label class="form-label">Выберите сотрудника</label>
+            <select th:field="*{employees}"
+                    name="author">
+                <option th:each="employee : ${employees}"
+                        th:if="${(employee.user.username == isAuth)}"
+                        th:value="${employee.id}"
+                        th:text="${employee.user.surname+' '+employee.user.name+' '+employee.user.middlename}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group mt-2">
+            <label class="form-label">Количество товара</label>
+            <div style="color: red" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div>
+            <input th:field="*{quantity}" type="number" class="form-control mt-2"
+                   name="quantity" placeholder="Введите количество товара">
+        </div>
+
+        <div class="form-group mt-2">
+            <label class="form-label">Стоимость заказа</label>
+            <div style="color: red" th:if="${#fields.hasErrors('totalCost')}" th:errors="*{totalCost}"></div>
+            <input th:field="*{totalCost}" type="number" class="form-control mt-2"
+                   name="totalCost" placeholder="Введите стоимость">
+        </div>
+
+        <div hidden>
+            <label class="form-label">Время продажи</label>
+            <div style="color: red" th:if="${#fields.hasErrors('timesell')}" th:errors="*{timesell}"></div>
+            <input th:field="*{timesell}" type="text" class="form-control mt-2"
+                   name="timesell" placeholder="Введите время продажи">
+        </div>
+
+        <button type="submit" class="btn btn-dark mt-2">Сохранить
+        </button>
+    </form>
+</div>
+</div>
+</body>
+</html>

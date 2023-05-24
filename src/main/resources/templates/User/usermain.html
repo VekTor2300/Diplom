@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="ru">
+<head>
+  <title>Список пользователей</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="/css/mystyle.css" rel="stylesheet">
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/background.css" rel="stylesheet">
+  <link href="/css/textcolor.css" rel="stylesheet">
+  <link href="/css/tableStyle.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+
+<div align="center" class="bg-ex-animation">
+  <div class="wrapper">
+  <p class="display-5 p-2">Пользователи</p><br>
+  <a href="/admin/addAdmin" class="btn btn-success" sec:authorize="isAuthenticated()">Добавить пользователя</a>
+  <br><br>
+  <table>
+    <tr>
+      <th>Логин</th>
+      <th>Роль</th>
+      <th>Фамилия</th>
+      <th>Имя</th>
+      <th>Отчество</th>
+      <th>Адрес пользователя</th>
+      <th></th>
+    </tr>
+    <div th:each="el : ${users}">
+    <tr>
+      <td th:text="${el.username}"></td>
+      <td th:text="${el.roles}"></td>
+      <td th:text="${el.surname}"></td>
+      <td th:text="${el.name}"></td>
+      <td th:text="${el.middlename}"></td>
+      <td><a class="underline text-blue-600"  th:href="'/admin/edit/'+${el.id}" sec:authorize="isAuthenticated()">Редактировать</a></td>
+      <!--            <a class="underline text-blue-600"  th:href="'/typeTreatment/show/'+${user.id}">Посмореть</a>-->
+      <td><a class="underline text-blue-600"  th:href="'/admin/del/'+${el.id}" sec:authorize="isAuthenticated()">Удалить</a></td>
+    </tr>
+    </div>
+  </table>
+<!--<div th:each="el : ${users}">-->
+<!--  <p th:text="${el.username}"></p>-->
+<!--  <p th:text="${el.roles}"></p>-->
+<!--  <a th:href="'/admin/' + ${el.id} + '/edit'" class="bott">Редактировать</a>-->
+<!--</div>-->
+  </div>
+  <div class="footer"></div>
+</div>
+</body>
+</html>

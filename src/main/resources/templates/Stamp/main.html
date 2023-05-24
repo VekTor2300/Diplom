@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <title>Марка товара</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div align="center" class="bg-ex-animation">
+
+<p class="display-5 p-2">Все марки товаров</p>
+<a href="/employeeStamp/add" class="but" sec:authorize="isAuthenticated()">Добавить марку товара</a>
+    <br><br>
+    <table>
+        <thead>
+        <tr>
+            <th>Марка</th>
+            <th>Тип товара</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="stamp : ${stamps}">
+            <tr>
+                <td th:text="${stamp.titlestamp}"></td>
+                <td>[[${stamp.productTypes}]]</td>
+                <td><a th:href="'/employeeStamp/edit/'+${stamp.id}"
+                       sec:authorize="isAuthenticated()">Редактировать</a></td>
+                <td><a th:href="'/employeeStamp/del/'+${stamp.id}"
+                       sec:authorize="isAuthenticated()">Удалить</a></td>
+            </tr>
+        </th:block>
+        </tbody>
+
+    </table>
+</div>
+</div>
+</body>
+</html>

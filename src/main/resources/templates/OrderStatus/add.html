@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <title>Добавление статуса</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+<div class="wrapper">
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <form th:action = "${'/adminOrderStatus/add'}" class="form col-sm-2"
+          method="post" th:object="${appStatus}">
+        <div class="form-group mt-2">
+            <label class="form-label">Статус</label>
+            <input th:field="*{name}" class="form-control mt-2"
+                   type="text" name="name" placeholder="Введите статус">
+            <div style="width: 250px; height: 40px; margin: 2px; color: red" th:if="*{#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <button type="submit" class="btn btn-dark mt-2">Добавить статус</button>
+    </form>
+</div>
+</div>
+    <div class="footer"></div>
+</div>
+</body>
+</html>

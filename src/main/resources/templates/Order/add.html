@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <script src="https://unpkg.com/imask"></script>
+    <title>Создание заявки</title>
+</head>
+<body>
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+    <div class="wrapper">
+    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+        <form th:action="${'/orderSotr/add'}" th:object="${requestSupport}" method="post"
+              class="form col-sm-2">
+            <div hidden class="mb-4">
+                <label class="form-label">Дата заявки</label>
+                <div style="color: red" th:if="${#fields.hasErrors('dateApp')}" th:errors="*{dateApp}"></div>
+                <input th:field="*{dateApp}"
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                       type="datetime-local" name="dateApp">
+            </div>
+
+            <div class="form-group mt-2">
+                <label class="form-label">ФИО</label>
+                <div style="color: red" th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}"></div>
+                <input th:field="*{fio}"
+                       class="form-control mt-2 input-ru"
+                       type="text" name="fio" placeholder="Введите ваше ФИО">
+            </div>
+
+            <div class="form-group mt-2">
+                <label class="form-label">Номер телефона</label>
+                <div style="color: red" th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}"></div>
+                <input th:field="*{numberPhone}"
+                          class="form-control mt-2" id="phone-mask"
+                          type="text" name="numberPhone" placeholder="Введите номер телефона"></input>
+            </div>
+
+            <div class="form-group mt-2">
+                <label class="form-label">Адрес проживания</label>
+                <div style="color: red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+                <input th:field="*{address}"
+                          class="form-control mt-2"
+                          type="text" name="address" placeholder="Введите адрес проживания"></input>
+            </div>
+
+            <div hidden class="form-group mt-2">
+                <label class="form-label">Статус заявки</label>
+                <!--      <div style="color: red" th:if="${#fields.hasErrors('users')}" th:errors="*{users}"></div>-->
+                <select th:field="*{appStatus}"
+                        name="author" class="form-select">
+                    <option th:each="ordStat : ${orderStatuses}"
+                            th:if="${ordStat.id}"
+                            th:value="${ordStat.id}"
+                            th:text="${ordStat.name == 'В очереди'}">
+                    </option>
+                </select>
+            </div>
+            <input type="checkbox" required><label style="font-size: 12px;display: inline">Нажимая кнопку «Отправить», я даю свое согласие на обработку моих персональных данных, в соответствии с </label><a th:href="${'/orderSotr/PersonalData'}" target="_blank" style="font-size: 12px;display: inline">Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных»</a><label style="font-size: 12px;display: inline">, на условиях и для целей, определенных в Согласии на обработку персональных данных *</label>
+            <button class="btn btn-primary"
+                    type="submit">Отправить заявку на рассмотрение
+            </button>
+        </form>
+    </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var phoneMask = IMask(
+        document.getElementById('phone-mask'), {
+            mask: '+{7}(000)000-00-00'
+        });
+</script>
+<script>
+    $('body').on('input', '.input-ru', function(){
+        this.value = this.value.replace(/[^а-яё\s]/gi, '');
+    });
+</script>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск товаров</title>
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div align="center" class="bg-ex-animation">
+
+<h2>Фильтрация</h2>
+<form method="get" th:action="${'/adminProducts/filter'}">
+    <label>
+        <input type="text" style="color: black" name="titleproducts" th:value="${titleproducts}">
+    </label>
+    <button type="submit">Найти</button>
+    <label>
+        Точный поиск:
+        <input type="checkbox" name="accurate_search" placeholder="Точный поиск" th:checked="${accurate_search}">
+    </label>
+    <table>
+        <tr>
+            <th>Название товара</th>
+            <th>Описание товара</th>
+            <th>Марка товара</th>
+            <th>Стоимость товара</th>
+        </tr>
+        <div th:each="el : ${result}">
+            <tr>
+                <td th:text="${el.titleproducts}"></td>
+                <td th:text="${el.description}"></td>
+                <td th:text="${el.stamp.titlestamp}"></td>
+                <td th:text="${el.cost + ' руб.'}"></td>
+            </tr>
+        </div>
+    </table>
+</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+  <title>Редактирование пользователя</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="/css/mystyle.css" rel="stylesheet">
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/background.css" rel="stylesheet">
+  <link href="/css/textcolor.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+  <div class="wrapper">
+    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+      <form th:action="${'/admin/edit/'+user.id}" th:object="${user}" method="post" class="form col-sm-2">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2">Логин</label>
+          <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+          <input th:field="*{login}"
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                 type="text" name="name" placeholder="Введите логин">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2">Фамилия</label>
+          <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+          <input th:field="*{surname}"
+                 class="input-ru shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                 type="text" name="name" placeholder="Введите фамилию">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2">Имя</label>
+          <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+          <input th:field="*{name}"
+                 class="input-ru shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                 type="text" name="name" placeholder="Введите имя">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2">Отчество</label>
+          <div style="color: red" th:if="${#fields.hasErrors('middlename')}" th:errors="*{middlename}"></div>
+          <input th:field="*{middlename}"
+                 class="input-ru shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                 type="text" name="middlename" placeholder="Введите отчество">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2">Роли</label>
+          <div th:each="role : ${roles}">
+            <input th:name="${'roles[]'}" th:value="${role.name}" th:checked="${user.id!=null && #lists.contains(user.roles, role)}" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                   type="checkbox">
+            <label th:text="${role.name}"></label>
+          </div>
+        </div>
+
+        <div class="form-group mt-2">
+          <label for="active" class="label">Активировать аккаунт</label><br>
+          <input id="active" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox" th:field="*{active}">
+        </div>
+        <span class="has-error text-danger" th:if="${#fields.hasErrors('active')}" th:errors="*{active}"></span>
+        <div class="form-group mt-2">
+          <button type="submit" class="btn btn-primary mt-2">Сохранить изменения</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="footer"></div>
+</div>
+</body>
+</html>
+<script>
+  $('body').on('input', '.input-ru', function(){
+    this.value = this.value.replace(/[^а-яё\s]/gi, '');
+  });
+</script>

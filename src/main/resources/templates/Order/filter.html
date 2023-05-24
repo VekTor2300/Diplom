@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+
+<div align="center">
+    <h2>Поиск сотрудников</h2>
+    <form method="post" th:action="${'/orderSotr/filter/result'}">
+        <input type="text" name="surname">
+        <button type="submit">Найти</button>
+        <div th:each="order : ${result}">
+            <h3 th:text="${'Дата заказа: '+order.data}"></h3>
+            <h3 th:text="${'Примечание: '+order.noter}"></h3>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <title th:value="${'Редактирование марки товара '+stamp.titlestamp}"></title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div class="bg-ex-animation">
+
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <p class="display-5 p-2">Изменение марки товара</p>
+    <form th:action="${'/employeeStamp/edit/'+stamp.id}" method="post" th:object="${stamp}"
+          class="form col-sm-2">
+
+        <div class="form-group mt-2">
+            <label>Марка товара</label>
+            <div style="color: red" th:if="${#fields.hasErrors('titlestamp')}" th:errors="*{titlestamp}"></div>
+            <input th:field="*{titlestamp}" type="text" class="form-control mt-2"
+                   name="titlestamp" placeholder="Введите марку товара">
+        </div>
+
+        <div class="form-group mt-2">
+            <label>Типы марки товара</label>
+            <div th:each="product : ${productTypes}">
+                <input th:name="${'productTypes[]'}" th:value="${product.id}" class="form-check-input"
+                       th:checked="${stamp.id!=null && #lists.contains(stamp.productTypes, product)}"
+                       type="checkbox">
+                <label class="form-check-label" th:text="${product.name}"></label>
+            </div>
+            <input type="hidden" name="productTypes[]" value="">
+        </div>
+        <div class="form-group mt-2">
+
+            <button type="submit" class="btn btn-dark mt-2">Сохранить
+            </button>
+
+        </div>
+    </form>
+</div>
+</div>
+</body>
+</html>

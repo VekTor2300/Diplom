@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <title>Cтатусы заказов</title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div align="center" class="bg-ex-animation">
+<div class="wrapper">
+<p class="display-5 p-2">Все статусы</p><br>
+    <a href="/adminOrderStatus/add" class="but" sec:authorize="isAuthenticated()">Добавить статус</a>
+    <br><br>
+    <table>
+        <tr>
+            <th>Статус заказа</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <div th:each="stat : ${status}">
+            <tr>
+                <td th:text="${stat.name}"></td>
+                <td><a th:href="'/adminOrderStatus/edit/'+${stat.id}"
+                       sec:authorize="isAuthenticated()">Редактировать</a></td>
+                <td><a th:href="'/adminOrderStatus/del/'+${stat.id}"
+                       sec:authorize="isAuthenticated()">Удалить</a></td>
+            </tr>
+        </div>
+    </table>
+</div>
+    <div class="footer"></div>
+</div>
+</body>
+</html>

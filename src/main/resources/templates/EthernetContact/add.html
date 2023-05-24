@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Заключение договора</title>
+</head>
+<style>
+    input[type="number"] {
+        -moz-appearance: textfield;
+        -webkit-appearance: textfield;
+        appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        display: none;
+    }
+</style>
+<body>
+<script src="/js/jquery.validate.js"></script>
+<div th:insert="Blocks/Header" style="margin-top: 120px">...</div>
+<div class="bg-ex-animation">
+    <div class="wrapper">
+        <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+            <form th:action = "${'/ethContact/add'}" method="post"
+                  th:object="${ethernetContract}" class="form-group">
+                <div class="form-group mt-2">
+                    <label class="form-label">Договор</label><br>
+                    <input onmousedown="return false" onkeydown="return false" th:field="*{contractId}" type="text" name="contractId" placeholder="" class="form-control"><br>
+                    <div class="has-error alert-danger" th:if="*{#fields.hasErrors('contractId')}" th:errors="*{contractId}"></div><br>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Клиент</label>
+                    <!--      <div style="color: red" th:if="${#fields.hasErrors('clients')}" th:errors="*{clients}"></div>-->
+                    <select th:field="*{clients}"
+                            class="form-select">
+                        name="author">
+                        <option th:each="client : ${clients}"
+                                th:if="${(ethernetContract.clients != null && client.id.equals(ethernetContract.clients.id)) || (client.ethernetContract==null)}"
+                                th:value="${client.id}"
+                                th:text="${client.users.name+' '+client.users.surname+' '+client.users.middlename}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Лицевой счет клиента</label>
+                    <!--      <div style="color: red" th:if="${#fields.hasErrors('clients')}" th:errors="*{clients}"></div>-->
+                    <select th:field="*{personalAccounts}"
+                            class="form-select">
+                        name="author">
+                        <option th:each="psAcc : ${personalAccounts}"
+                                th:if="${(ethernetContract.personalAccounts != null && psAcc.id.equals(ethernetContract.personalAccounts.id)) || (psAcc.ethernetContract==null)}"
+                                th:value="${psAcc.id}"
+                                th:text="${psAcc.numPersonalAccount+' '+psAcc.clients.users.name+' '+psAcc.clients.users.middlename}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="form-label">Памятка для клиента</label>
+                    <!--      <div style="color: red" th:if="${#fields.hasErrors('clients')}" th:errors="*{clients}"></div>-->
+                    <select th:field="*{subscriberMemos}"
+                            class="form-select">
+                        name="author">
+                        <option th:each="sub : ${subscriberMemos}"
+                                th:if="${(ethernetContract.subscriberMemos != null && sub.id.equals(ethernetContract.subscriberMemos.id)) || (sub.ethernetContract==null)}"
+                                th:value="${sub.id}"
+                                th:text="${sub.clients.users.name+' '+sub.clients.users.surname+' '+sub.clients.users.middlename}">
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark mt-2">Заключить договор</button>
+            </form>
+        </div>
+    </div>
+    <div class="footer"></div>
+</div>
+</body>
+</html>

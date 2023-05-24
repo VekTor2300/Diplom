@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <link href="/css/tableStyle.css" rel="stylesheet">
+    <title>БД</title>
+</head>
+<body>
+<div th:insert="Blocks/Header">...</div>
+<div class="bg-ex-animation">
+    <div class="d-flex container flex-row align-items-center justify-content-center mt-3 col-sm-8">
+        <form method="get" th:action="@{/backup/downloadSQL}"
+              class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-4">
+            <div class="form-check">
+                <input class="form-check-input" name="withData" type="checkbox" value="1" id="flexCheckChecked" checked>
+                <label class="form-check-label" for="flexCheckChecked">
+                    Наличие данных
+                </label>
+            </div>
+            <input type="submit" value="Скачать скрипт" class="btn btn-success">
+        </form>
+        <br>
+        <br>
+        <form method="get" th:action="@{/backup/createDump}">
+            <input type="submit" value="Создать резервную копию" class="btn btn-info">
+        </form>
+    </div>
+    <br>
+    <br>
+
+    <div align="center">
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col" class="text-center">Название</th>
+                    <th scope="col" class="text-center">Удалить</th>
+                    <th scope="col" class="text-center">Восстановить</th>
+                </tr>
+                </thead>
+                <tr th:each="f : ${restoreFiles}">
+
+                        <td scope="col"><span class="h3" th:text="${f}"></span></td>
+                        <td scope="col">
+                            <form th:action="@{/backup/deleteDump}" method="post">
+                                <input type="hidden" th:value="${f}" name="filename">
+                                <input type="submit" value="Удалить" class="btn btn-danger">
+                            </form>
+                        </td>
+                        <td scope="col">
+                            <form th:action="@{/backup/restore}" method="post">
+                                <input type="hidden" th:value="${f}" name="fileName">
+                                <input type="submit" value="Восстановить" class="btn btn-success">
+                            </form>
+                        </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<header class="p-3 bg-dark text-white" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+        xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img src="/images/logo.png" alt="logo" width="100" height="35" class="bi me-2">
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a href="/" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-house-fill"></span>Главная</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isEmployee}">
+                        <a href="/" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-house-fill"></span>Главная</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isUser}">
+                        <a href="/" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-house-fill"></span>Главная</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a href="/admin" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-people-fill"></span>Пользователи</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isEmployee}">
+                        <a href="/admin/addClient" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-people-fill"></span>Заключить договор с абонентом</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a href="/adminPost" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-card-list"></span>Должности</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a href="/adminEmployee" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-people-fill"></span>Сотрудники</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a href="/userClient" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-people-fill"></span>Клиенты</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isEmployee}">
+                        <a href="/adminOrderStatus" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-card-list"></span>Статусы заявок</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a href="/rate" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-table"></span>Тарифы</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isEmployee}">
+                        <a href="/rate" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-table"></span>Тарифы</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a href="/memo" data-mdb-ripple="true" class="nav-link px-2 text-white" data-mdb-ripple-color="light"><span class="bi-table"></span>Памятки абонентов</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a href="/personalAccount" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-person"></span>Лицевой счет</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a href="/ethContact" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-chevron-contract"></span>Договора</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isEmployee}">
+                        <a href="/ethContact" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-chevron-contract"></span>Договора</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isUser}">
+                        <a href="/ethContact" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-arrow-90deg-down"></span>Мои услуги</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isEmployee}">
+                        <a href="/orderSotr" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-card-checklist"></span>Заявки</a>
+                    </li>
+                </sec:authorize>
+                <li class="nav-item" th:if="${!isEmployee && !isAdmin && !isUser}">
+                    <a href="/orderSotr/add" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-card-checklist"></span>Оставить заявку на подключение интернета</a>
+                </li>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isUser}">
+                        <a href="/personalAccount" class="nav-link px-2 text-white" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-people-fill"></span>Пополнить баланс</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a class="nav-link px-2 text-white"
+                           th:href="@{/backup}" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-database-fill"></span>Управление БД</a>
+                    </li>
+                </sec:authorize>
+
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isUser}">
+                        <a class="nav-link px-2 text-white"
+                           th:href="@{/tariff}" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-database-fill"></span>Управление</a>
+                    </li>
+                </sec:authorize>
+
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isUser}">
+                        <a class="nav-link px-2 text-white"
+                           th:href="@{/eth}" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-database-fill"></span>Рассторжение договора</a>
+                    </li>
+                </sec:authorize>
+
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isUser}">
+                        <a class="nav-link px-2 text-white"
+                           th:href="@{/document}" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-pass"></span>Мои документы</a>
+                    </li>
+                </sec:authorize>
+
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isEmployee}">
+                        <a class="nav-link px-2 text-white"
+                           th:href="@{/document}" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-pass"></span>Документы</a>
+                    </li>
+                </sec:authorize>
+
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a class="nav-link px-2 text-white"
+                           th:href="@{/document}" data-mdb-ripple="true" data-mdb-ripple-color="light"><span class="bi-pass"></span>Документы</a>
+                    </li>
+                </sec:authorize>
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+            </form>
+
+            <div class="text-end">
+                    <li class="nav-item" style="list-style: none;">
+<!--                         <a class="btn btn-outline-light me-2" th:href="@{/login}">Войти</a>-->
+                            <a th:href="@{/logit}" class="btn btn-warning me-2" th:if="${isEmployee || isAdmin || isUser}">Выйти</a>
+                        <form th:action="${'/login'}" method="post" th:if="${!isEmployee && !isAdmin && !isUser}">
+                            <input class="btn btn-outline-light me-2" type="submit" value="Войти">
+                        </form>
+                    </li>
+            </div>
+        </div>
+    </div>
+</header>

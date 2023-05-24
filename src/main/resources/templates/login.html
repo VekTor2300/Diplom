@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ВХОД</title>
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+</head>
+<body>
+<div class="bg-ex-animation">
+    <div th:if="${param.logout}" class="alert alert-success" role="alert">
+        Вы вышли из аккаунта
+    </div>
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        Неверный пароль или логин.
+    </div>
+    <div data-v-3e13beb8 class="autorization">
+        <h3>АВТОРИЗАЦИЯ</h3>
+
+        <form th:action="@{/login}" method="post" class="submit">
+            <!--        <div class="form-group mt-2">-->
+            <label class="sr-only" for="login">Логин</label>
+            <input required="required" id="login" class="form-control" autofocus="autofocus" type="text" name="login"/>
+            <!--        </div>-->
+            <!--        <div class="form-group mt-2">-->
+            <label class="sr-only" for="password">Пароль</label>
+            <input required="required" id="password" class="form-control" type="password" name="password"/>
+            <!--        </div>-->
+            <!--        <div class="form-group mt-2 d-flex flex-row align-items-center justify-content-between">-->
+            <button type="submit" class="btn btn-primary btn-block form-control" style="margin-top: 10px">Войти</button>
+            <!--            <a th:href="@{/registration}" class="btn btn-secondary mt-2">Регистрация</a>-->
+            <!--        </div>-->
+        </form>
+        <br>
+        <a href="/" class="btn btn-dark btn-block">На главную</a>
+
+    </div>
+    <div class="footer">
+
+    </div>
+</div>
+</body>
+</html>

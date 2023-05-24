@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/mystyle.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/background.css" rel="stylesheet">
+    <link href="/css/textcolor.css" rel="stylesheet">
+    <title th:value="${'Редактирование тип товара '+productType.name}"></title>
+</head>
+<body>
+
+<div th:insert="Blocks/Header">...</div>
+<div class="bg-ex-animation">
+
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <p class="display-5 p-2">Изменение типа товара</p>
+    <form th:action="${'/adminProductType/edit/'+productType.id}" class="form col-sm-2"
+          method="post" th:object="${productType}">
+
+        <div class="form-group mt-2">
+            <label class="form-label">Выберите категорию товара</label>
+            <select th:field="*{productCategory}"
+                    name="author" class="form-select">
+                <option th:each="product : ${productCategory}"
+                        th:value="${product.id}"
+                        th:text="${product.name}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group mt-2">
+            <label class="form-label">Тип товара</label>
+        <input th:field="*{name}" style="display: list-item" class="form-control mt-2" th:value="${productType.name}" type="text" name="name" placeholder="Введите тип товара">
+        <div th:if="*{#fields.hasErrors('name')}" th:errors="*{name}"></div><br>
+        </div>
+        <button type="submit" class="btn btn-dark mt-2">Сохранить</button>
+    </form>
+</div>
+</div>
+</body>
+</html>
